@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_clean_architecture_2/2_application/core/routes.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_clean_architecture_2/2_application/core/routes.dart';
 
 class BasicApp extends StatelessWidget {
   const BasicApp({super.key});
@@ -9,7 +9,7 @@ class BasicApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp.router(
       title: 'ToDo App',
-      localizationsDelegates: [
+      localizationsDelegates: const [
         ...GlobalMaterialLocalizations.delegates,
         GlobalWidgetsLocalizations.delegate,
       ],

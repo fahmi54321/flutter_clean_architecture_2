@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_adaptive_scaffold/flutter_adaptive_scaffold.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_clean_architecture_2/2_application/core/page_config.dart';
+import 'package:flutter_clean_architecture_2/2_application/pages/create_todo_collection/create_todo_collection_page.dart';
 import 'package:flutter_clean_architecture_2/2_application/pages/dashboard/dashboard_page.dart';
 import 'package:flutter_clean_architecture_2/2_application/pages/detail/todo_detail_page.dart';
 import 'package:flutter_clean_architecture_2/2_application/pages/home/bloc/navigation_todo_cubit.dart';
@@ -47,6 +48,15 @@ class _HomePageState extends State<HomePage> {
               Breakpoints.mediumAndUp: SlotLayout.from(
                 key: const Key('primary-navigation-medium'),
                 builder: (context) => AdaptiveScaffold.standardNavigationRail(
+                  leading: IconButton(
+                    onPressed: () {
+                      context.pushNamed(
+                        CreateToDoCollectionPage.pageConfig.name,
+                      );
+                    },
+                    icon: Icon(CreateToDoCollectionPage.pageConfig.icon),
+                    tooltip: 'Add Collection',
+                  ),
                   trailing: IconButton(
                     onPressed: () =>
                         context.pushNamed(SettingsPage.pageConfig.name),

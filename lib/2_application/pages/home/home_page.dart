@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_adaptive_scaffold/flutter_adaptive_scaffold.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_clean_architecture_2/2_application/core/page_config.dart';
 import 'package:flutter_clean_architecture_2/2_application/pages/dashboard/dashboard_page.dart';
+import 'package:flutter_clean_architecture_2/2_application/pages/detail/todo_detail_page.dart';
+import 'package:flutter_clean_architecture_2/2_application/pages/home/bloc/navigation_todo_cubit.dart';
 import 'package:flutter_clean_architecture_2/2_application/pages/overview/overview_page.dart';
 import 'package:flutter_clean_architecture_2/2_application/pages/settings/settings_page.dart';
 import 'package:go_router/go_router.dart';
@@ -93,7 +96,35 @@ class _HomePageState extends State<HomePage> {
             config: <Breakpoint, SlotLayoutConfig>{
               Breakpoints.mediumAndUp: SlotLayout.from(
                 key: const Key('secondary-body-medium'),
-                builder: AdaptiveScaffold.emptyBuilder,
+                builder: widget.index != 1
+                    ? null
+                    : (_) =>
+                          BlocBuilder<
+                            NavigationToDoCubit,
+                            NavigationToDoCubitState
+                          >(
+                            builder: (context, state) {
+                              final selectedId = state.selectedCollectionId;
+                              final isSecondBodyDisplayed = Breakpoints
+                                  .mediumAndUp
+                                  .isActive(context);
+
+                              context
+                                  .read<NavigationToDoCubit>()
+                                  .secondBodyHasChanged(
+                                    isSecondBodyDisplayed:
+                                        isSecondBodyDisplayed,
+                                  );
+
+                              if (selectedId == null) {
+                                return const Placeholder();
+                              }
+                              return ToDoDetailPageProvider(
+                                key: Key(selectedId.value),
+                                collectionId: selectedId,
+                              );
+                            },
+                          ),
               ),
             },
           ),

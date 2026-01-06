@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_adaptive_scaffold/flutter_adaptive_scaffold.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_clean_architecture_2/1_domain/entities/todo_collection.dart';
 import 'package:flutter_clean_architecture_2/2_application/pages/detail/todo_detail_page.dart';
+import 'package:flutter_clean_architecture_2/2_application/pages/home/bloc/navigation_todo_cubit.dart';
 import 'package:go_router/go_router.dart';
 
 class ToDoOverviewLoaded extends StatelessWidget {
@@ -23,6 +25,9 @@ class ToDoOverviewLoaded extends StatelessWidget {
           iconColor: item.color.color,
           selectedColor: item.color.color,
           onTap: () {
+            context.read<NavigationToDoCubit>().selectedToDoCollectionChanged(
+              item.id,
+            );
             if (Breakpoints.small.isActive(context)) {
               context.pushNamed(
                 ToDoDetailPage.pageConfig.name,

@@ -1,6 +1,7 @@
+import 'package:equatable/equatable.dart';
 import 'package:flutter_clean_architecture_2/1_domain/entities/unique_id.dart';
 
-class ToDoEntry {
+class ToDoEntry extends Equatable {
   final String description;
   final bool isDone;
   final EntryId id;
@@ -14,4 +15,15 @@ class ToDoEntry {
   factory ToDoEntry.empty() {
     return ToDoEntry(id: EntryId(), description: '', isDone: false);
   }
+
+  ToDoEntry copyWith({String? description, bool? isDone}) {
+    return ToDoEntry(
+      id: id,
+      description: description ?? this.description,
+      isDone: isDone ?? this.isDone,
+    );
+  }
+
+  @override
+  List<Object?> get props => [id, isDone, description];
 }

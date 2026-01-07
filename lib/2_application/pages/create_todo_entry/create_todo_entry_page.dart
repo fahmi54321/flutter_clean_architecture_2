@@ -8,10 +8,27 @@ import 'package:flutter_clean_architecture_2/2_application/core/form_value.dart'
 import 'package:flutter_clean_architecture_2/2_application/core/page_config.dart';
 import 'package:flutter_clean_architecture_2/2_application/pages/create_todo_entry/bloc/create_todo_entry_page_cubit.dart';
 
+typedef ToDoEntryItemAddedCallback = Function();
+
+class CreateToDoEntryPageExtra {
+  final CollectionId collectionId;
+  final ToDoEntryItemAddedCallback toDoEntryItemAddedCallback;
+
+  CreateToDoEntryPageExtra({
+    required this.collectionId,
+    required this.toDoEntryItemAddedCallback,
+  });
+}
+
 class CreateToDoEntryPageProvider extends StatelessWidget {
-  const CreateToDoEntryPageProvider({super.key, required this.collectionId});
+  const CreateToDoEntryPageProvider({
+    super.key,
+    required this.collectionId,
+    required this.toDoEntryItemAddedCallback,
+  });
 
   final CollectionId collectionId;
+  final ToDoEntryItemAddedCallback toDoEntryItemAddedCallback;
 
   @override
   Widget build(BuildContext context) {
@@ -22,13 +39,19 @@ class CreateToDoEntryPageProvider extends StatelessWidget {
           toDoRepository: RepositoryProvider.of<ToDoRepository>(context),
         ),
       ),
-      child: const CreateToDoEntryPage(),
+      child: CreateToDoEntryPage(
+        toDoEntryItemAddedCallback: toDoEntryItemAddedCallback,
+      ),
     );
   }
 }
 
 class CreateToDoEntryPage extends StatefulWidget {
-  const CreateToDoEntryPage({super.key});
+  const CreateToDoEntryPage({
+    super.key,
+    required this.toDoEntryItemAddedCallback,
+  });
+  final ToDoEntryItemAddedCallback toDoEntryItemAddedCallback;
 
   static const pageConfig = PageConfig(
     name: 'create_todo_entry',
@@ -81,6 +104,7 @@ class _CreateToDoEntryPageState extends State<CreateToDoEntryPage> {
                 final isValid = _formKey.currentState?.validate();
                 if (isValid == true) {
                   context.read<CreateToDoEntryPageCubit>().submit();
+                  widget.toDoEntryItemAddedCallback.call();
                   context.pop();
                 }
               },

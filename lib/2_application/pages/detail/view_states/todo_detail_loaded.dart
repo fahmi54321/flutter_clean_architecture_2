@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_clean_architecture_2/1_domain/entities/unique_id.dart';
 import 'package:flutter_clean_architecture_2/2_application/components/todo_entry_item/todo_entry_item.dart';
 import 'package:flutter_clean_architecture_2/2_application/pages/create_todo_entry/create_todo_entry_page.dart';
+import 'package:flutter_clean_architecture_2/2_application/pages/detail/bloc/todo_detail_cubit.dart';
 import 'package:go_router/go_router.dart';
 
 class ToDoDetailLoaded extends StatelessWidget {
@@ -35,7 +37,12 @@ class ToDoDetailLoaded extends StatelessWidget {
                 onPressed: () {
                   context.pushNamed(
                     CreateToDoEntryPage.pageConfig.name,
-                    extra: collectionId,
+                    extra: CreateToDoEntryPageExtra(
+                      collectionId: collectionId,
+                      toDoEntryItemAddedCallback: context
+                          .read<ToDoDetailCubit>()
+                          .fetch,
+                    ),
                   );
                 },
                 child: const Icon(Icons.add_rounded),

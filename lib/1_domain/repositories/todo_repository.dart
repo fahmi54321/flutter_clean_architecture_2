@@ -6,6 +6,7 @@ import 'package:flutter_clean_architecture_2/1_domain/failures/failures.dart';
 
 abstract class ToDoRepository {
   Future<Either<Failure, List<ToDoCollection>>> readToDoCollections();
+
   Future<Either<Failure, ToDoEntry>> readToDoEntry(
     CollectionId collectionId,
     EntryId entryId,
@@ -22,5 +23,8 @@ abstract class ToDoRepository {
 
   Future<Either<Failure, bool>> createToDoCollection(ToDoCollection collection);
 
-  Future<Either<Failure, bool>> createToDoEntry(ToDoEntry entry);
+  Future<Either<Failure, bool>> createToDoEntry(
+    CollectionId collectionId,
+    ToDoEntry entry,
+  );
 }
